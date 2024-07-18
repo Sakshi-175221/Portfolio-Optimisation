@@ -1,9 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
 
-# ### Importing  and installing the required libraries
-
-# In[ ]:
 
 
 import pandas as pd
@@ -15,7 +10,6 @@ get_ipython().system('pip install plotly')
 
 # ### Webscrapping the top 564 companies based on their market size also mapping the companies to their respective sectors.
 
-# In[ ]:
 
 
 import yfinance as yf
@@ -650,7 +644,6 @@ print(all_stock_data)
 
 # ### Creating a Dataframe for the scraped data 
 
-# In[ ]:
 
 
 df = pd.DataFrame(all_stock_data)
@@ -659,7 +652,6 @@ df
 
 # ### Count of trading days for each company.
 
-# In[ ]:
 
 
 company_counts=df['company_counts'] = df['company'].value_counts()
@@ -667,9 +659,6 @@ company_counts
 
 
 # ### Keeping only those companies who have 2465 trading days.
-
-# In[ ]:
-
 
 num_companies_with_2465 = (company_counts == 2465).sum()
 num_companies_with_2465
@@ -679,8 +668,6 @@ num_companies_with_2465
 # 
 # ### Creating a Dataframe for the 388 companies.
 # 
-
-# In[ ]:
 
 
 selected_companies = []
@@ -693,8 +680,6 @@ df1.drop(columns=['company_counts'], inplace=True)
 
 
 # ### Computing Previous Close Price and Daily Returns
-
-# In[ ]:
 
 
 List_of_companies = list(set(df1['company'].unique()))
@@ -712,8 +697,6 @@ final_df
 
 # ### Creating a Dataframe that only has Company Name and Daily Returns.
 
-# In[ ]:
-
 
 df2=final_df.pivot(columns="company",values="Returns")
 df2
@@ -721,7 +704,6 @@ df2
 
 # ### Creating a Dataframe that only has Company Name and Adj Close price.
 
-# In[ ]:
 
 
 data2=final_df.pivot(columns="company",values="Adj Close")
@@ -730,16 +712,12 @@ data2
 
 # ### Creating a Dataframe that comprises Adj Clsoe price for each sector.
 
-# In[ ]:
-
 
 sector_adj_close = df1.pivot_table(index='Date',columns= 'Sector', values='Adj Close')
 sector_adj_close
 
 
 # ### Building an Efficient Frontier object for Mean-Variance portfolio for the companies.
-
-# In[ ]:
 
 
 from pypfopt import expected_returns, risk_models
@@ -779,8 +757,6 @@ print(cleaned_weights)
 
 # ### Visualising the weights.
 
-# In[ ]:
-
 
 import plotly.express as px
 
@@ -798,7 +774,6 @@ fig.show()
 
 # ### Building an Efficient Conditional Value at Risk Portfolio for the companies.
 
-# In[ ]:
 
 
 from pypfopt import EfficientCVaR
@@ -826,8 +801,6 @@ ef.portfolio_performance(verbose=True)
 
 # ### Visualising the weights.
 
-# In[ ]:
-
 
 # Filter out zero-weighted assets
 non_zero_weightss = {asset: weight for asset, weight in cleaned_weightss.items() if weight != 0}
@@ -843,7 +816,6 @@ fig.show()
 
 # ### Building an Efficient Frontier object for Mean-Variance portfolio for the sectors.
 
-# In[ ]:
 
 
 from pypfopt import expected_returns, risk_models
@@ -887,8 +859,6 @@ ef.portfolio_performance(verbose=True)
 
 # ### Visualising the weights for the sectors.
 
-# In[ ]:
-
 
 # Filter out zero-weighted assets
 non_zero_weights = {asset: weight for asset, weight in cleaned_weights.items() if weight != 0}
@@ -904,7 +874,6 @@ fig.show()
 
 # ### Building an Efficient Conditional Value at Risk Portfolio for the sectors.
 
-# In[ ]:
 
 
 # Calculate expected returns and the covariance matrix of the portfolio
@@ -930,7 +899,6 @@ ef.portfolio_performance(verbose=True)
 
 # ### Visualising the weights for the sectors.
 
-# In[ ]:
 
 
 # Filter out zero-weighted assets
@@ -947,7 +915,6 @@ fig.show()
 
 # ### MonteCarlo Simulation.
 
-# In[ ]:
 
 
 import matplotlib.pyplot as plt
@@ -958,7 +925,6 @@ table
 
 # ### Computing Maximum Sharpe Ratio Allocation and Minimum Volatility Portfolio Allocation for a combination of 20000 portfolios with Risk free rate of 10%.
 
-# In[ ]:
 
 
 for c in table.columns.values:
@@ -1035,8 +1001,6 @@ display_simulated_ef_with_random(mean_returns, cov_matrix, num_portfolios, risk_
 
 
 # ### Discrete Allocation
-
-# In[ ]:
 
 
 # DISCRETE ALLOCATION OF EFFICIENT FRONTIER
